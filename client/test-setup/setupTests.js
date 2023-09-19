@@ -11,8 +11,11 @@ beforeAll(() => {
 
 afterEach(() => {
   cleanup();
+  mockServer.resetHandlers();
 });
 
 afterAll(() => {
   mockServer.close();
 });
+
+Object.defineProperty(window, "scrollTo", { value: () => {} });

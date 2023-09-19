@@ -1,17 +1,18 @@
-import { Navigate, useRouteError } from "react-router-dom"
-import { RootLayout } from "./layouts/RootLayout"
-import { editPostRoute } from "./pages/EditPost"
-import { newPostRoute } from "./pages/NewPost"
-import { postRoute } from "./pages/Post"
-import { postListRoute } from "./pages/PostList"
-import { todoListRoute } from "./pages/TodoList"
-import { userRoute } from "./pages/User"
-import { userListRoute } from "./pages/UserList"
+import { Navigate, useRouteError } from "react-router-dom";
+import { RootLayout } from "./layouts/RootLayout";
+import { editPostRoute } from "./pages/EditPost";
+import { newPostRoute } from "./pages/NewPost";
+import { postRoute } from "./pages/Post";
+import { postListRoute } from "./pages/PostList";
+import { todoListRoute } from "./pages/TodoList";
+import { userRoute } from "./pages/User";
+import { userListRoute } from "./pages/UserList";
 
 export const routes = [
   {
     path: "/",
     element: <RootLayout />,
+    errorElement: import.meta.env.MODE === "test" ? <ErrorPage /> : undefined,
     children: [
       {
         errorElement: <ErrorPage />,
@@ -47,10 +48,13 @@ export const routes = [
       },
     ],
   },
-]
+];
 
 function ErrorPage() {
-  const error = useRouteError()
+  const error = useRouteError();
+  if (import.meta.env.MODE === "test") {
+    throw error;
+  }
 
   return (
     <>
@@ -62,5 +66,5 @@ function ErrorPage() {
         </>
       )}
     </>
-  )
+  );
 }
